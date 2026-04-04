@@ -1,0 +1,18 @@
+# Environment Variables
+.env
+
+# Virtual Environment
+venv/
+env/
+__pycache__/
+
+# Local Text Files
+excluded_companies.txt
+
+# Local LaTeX Templates (if you choose to use the Secrets method above)
+cv.tex
+cl.tex
+
+# Generated PDFs and compiled LaTeX files
+*.pdf
+KaushalBaid_*.tex

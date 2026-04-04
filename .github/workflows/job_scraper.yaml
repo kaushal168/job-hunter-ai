@@ -1,0 +1,45 @@
+name: Automated Job Application Pipeline
+
+on:
+  schedule:
+    # Runs at 14:00 UTC on Monday, Wednesday, Friday
+    - cron: '0 14 * * 1,3,5'
+  workflow_dispatch: # Allows manual triggering from the GitHub UI
+
+jobs:
+  scrape-and-tailor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Setup Tectonic (LaTeX Compiler)
+        uses: wataru-chiba/setup-tectonic@v2
+
+      - name: Inject Secure Templates
+        env:
+          BASE_CV: ${{ secrets.BASE_CV_TEX }}
+          BASE_CL: ${{ secrets.BASE_CL_TEX }}
+        run: |
+          echo "$BASE_CV" > cv.tex
+          echo "$BASE_CL" > cl.tex
+
+      - name: Run Job Pipeline
+        env:
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python main.py
