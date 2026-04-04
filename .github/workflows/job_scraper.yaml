@@ -1,4 +1,4 @@
-name: Automated Job Application Pipeline
+name: Automated Job Search Workflow
 
 on:
   schedule:
