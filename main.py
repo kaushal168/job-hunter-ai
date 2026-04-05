@@ -40,7 +40,7 @@ def fetch_jobs():
     url = "https://linkedin-job-search-api.p.rapidapi.com/active-jb-24h"
     
     querystring = {
-        "limit": "2", #TODO: UPDATE TO 15
+        "limit": "15",
         "offset": "0",
         "advanced_title_filter": "('Software Engineer' | Backend | Java | SDE | Python) & ! (Test | QA | SDET | Automation | Support | Intern | Trainee | Lead)",
         "advanced_organization_filter": "! ('Wells Fargo' | Infosys | TCS | 'Tata Consultancy Services' | Wipro | Cognizant | 'Tech Mahindra' | Accenture | Capgemini | HCL | IBM | LTIMindtree | Mindtree | Deloitte | PwC | EY | KPMG)", 
