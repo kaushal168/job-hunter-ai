@@ -152,18 +152,38 @@ def evaluate_and_tailor(job, base_cv, base_cl):
     </COVER_LETTER>
     """
 
-    try:
-        response = client.models.generate_content(
-            model='gemini-3-flash-preview',
-            contents=prompt
-        )
-        output = response.text
-        
-        if hasattr(response, 'usage_metadata') and response.usage_metadata:
-            print(f"   ↳ Tokens Used: {response.usage_metadata.prompt_token_count} (In) / {response.usage_metadata.candidates_token_count} (Out)")
+    max_retries = 3
+    base_delay = 15
+    output = None
+
+    for attempt in range(max_retries):
+        try:
+            response = client.models.generate_content(
+                model='gemini-3-flash-preview',
+                contents=prompt
+            )
+            output = response.text
             
-    except Exception as e:
-        print(f"   ↳ Gemini API Error: {e}")
+            if hasattr(response, 'usage_metadata') and response.usage_metadata:
+                print(f"   ↳ Tokens Used: {response.usage_metadata.prompt_token_count} (In) / {response.usage_metadata.candidates_token_count} (Out)")
+            
+            break
+            
+        except Exception as e:
+            error_msg = str(e).upper()
+            if "503" in error_msg or "429" in error_msg or "UNAVAILABLE" in error_msg:
+                if attempt < max_retries - 1:
+                    sleep_time = base_delay * (2 ** attempt) # 15s, then 30s
+                    print(f"   ↳ API Busy (503/429). Retrying in {sleep_time}s... (Attempt {attempt + 1}/{max_retries})")
+                    time.sleep(sleep_time)
+                else:
+                    print(f"   ↳ Gemini API Error: Max retries reached. {e}")
+                    return None
+            else:
+                print(f"   ↳ Gemini API Error: {e}")
+                return None
+
+    if not output:
         return None
 
     is_match = "<MATCH>YES</MATCH>" in output.upper()
