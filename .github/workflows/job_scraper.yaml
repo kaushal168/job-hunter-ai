@@ -26,7 +26,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Setup Tectonic (LaTeX Compiler)
-        uses: WtfJoke/setup-tectonic@v4.0.2
+        uses: WtfJoke/setup-tectonic@v4
 
       - name: Inject Secure Templates
         env:
