@@ -42,7 +42,7 @@ def fetch_jobs():
     querystring = {
         "limit": "15",
         "offset": "0",
-        "advanced_title_filter": "('Software Engineer' | Backend | Java | SDE | Python) & ! (Test | QA | SDET | Automation | Support | Intern | Trainee | Lead)",
+        "advanced_title_filter": "('Software Engineer' | Backend | Java | SDE) & ! (Test | QA | SDET | Automation | Support | Intern | Trainee | Lead | Freelance | Contract | Mobile)",
         "advanced_organization_filter": "! ('Wells Fargo' | Infosys | TCS | 'Tata Consultancy Services' | Wipro | Cognizant | 'Tech Mahindra' | Accenture | Capgemini | HCL | IBM | LTIMindtree | Mindtree | Deloitte | PwC | EY | KPMG)", 
         "location_filter": 'India -"Chennai"',
         "description_filter": "Java OR Python OR 'C++'",
