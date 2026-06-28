@@ -48,7 +48,7 @@ def fetch_jobs():
         "description_filter": "Java OR Python OR 'C++'",
         "description_type": "text",
         "agency": "false",
-        "employees_gte": "500",
+        "employees_gte": "10000",
         "include_ai": "true",
         "ai_experience_level_filter": "0-2,2-5"
     }
